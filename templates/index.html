@@ -4,17 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#e8b84b" />
-  <title>NBA Live</title>
+  <title>NBA Live — Scores</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
 
-  <header class="header">
-    <div class="wordmark">NBA<span>Live</span></div>
-    <div class="live-badge"><div class="dot"></div>Live</div>
-  </header>
+  {% include 'nav.html' %}
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('scores')">Scores</button>
@@ -37,9 +34,7 @@
     <div id="teams-list"><div class="loading">Loading...</div></div>
   </div>
 
-  <script>
-    const API_KEY = "{{ api_key }}";
-  </script>
+  <script>const API_KEY = "{{ api_key }}";</script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

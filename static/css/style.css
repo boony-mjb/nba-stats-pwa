@@ -291,3 +291,144 @@ body {
   color: var(--live);
   text-align: center;
 }
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 16px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 11px 14px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav-link svg { flex-shrink: 0; }
+
+.nav-link:hover { color: var(--text); }
+
+.nav-link.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ── Conferences layout ── */
+.conferences {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+}
+
+.conference-block {
+  border-right: 1px solid var(--border);
+}
+
+.conference-block:last-child { border-right: none; }
+
+.conf-header {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.conf-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Standing rows ── */
+.standing-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+.standing-row:hover { background: var(--surface); }
+
+.standing-row.out .team-name { color: var(--muted); }
+
+.seed-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+}
+
+.seed-in { color: var(--gold); }
+.seed-playin { color: #4caf7d; }
+.seed-out { color: var(--dim); }
+
+.standing-team { flex: 1; min-width: 0; }
+
+.standing-team .team-name {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.standing-stats {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.stat-w { color: var(--text); font-weight: 500; }
+.stat-sep { color: var(--dim); }
+.stat-l { color: var(--muted); }
+.stat-pct {
+  color: var(--muted);
+  min-width: 34px;
+  text-align: right;
+}
+
+/* ── Divider lines between playoff zones ── */
+.divider-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+
+.divider-line span {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4caf7d;
+}
+
+.divider-line.out span { color: var(--muted); }
+
+@media (max-width: 500px) {
+  .conferences { grid-template-columns: 1fr; }
+  .conference-block { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-pct { display: none; }
+}

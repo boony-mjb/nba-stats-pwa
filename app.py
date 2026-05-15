@@ -9,7 +9,12 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     api_key = os.getenv('SPORTS_DB_KEY', '')
-    return render_template('index.html', api_key=api_key)
+    return render_template('index.html', api_key=api_key, active_page='scores')
+
+@app.route('/playoffs')
+def playoffs():
+    api_key = os.getenv('SPORTS_DB_KEY', '')
+    return render_template('playoffs.html', api_key=api_key, active_page='playoffs')
 
 if __name__ == '__main__':
     app.run(debug=True)
