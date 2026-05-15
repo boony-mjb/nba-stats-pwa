@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -5,255 +7,287 @@
 }
 
 :root {
-  --bg: #06080f;
-  --surface: #0d111c;
-  --border: rgba(255, 255, 255, 0.07);
-  --gold: #c9a84c;
-  --gold-dim: rgba(201, 168, 76, 0.15);
-  --text: #e8eaf0;
-  --muted: #6b7280;
-  --live: #ef4444;
+  --bg: #0b0b0b;
+  --surface: #111111;
+  --surface2: #181818;
+  --border: #222222;
+  --border2: #2e2e2e;
+  --gold: #e8b84b;
+  --text: #f0f0f0;
+  --muted: #555555;
+  --dim: #333333;
+  --live: #e03030;
 }
 
 body {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ── Header ── */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--border);
-  background: #0a0e1a;
 }
 
 .wordmark {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 24px;
-  letter-spacing: 3px;
-  color: var(--gold);
-  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--text);
+  line-height: 1;
 }
 
-.wordmark span {
-  color: var(--text);
-}
+.wordmark span { color: var(--gold); }
 
 .live-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  background: rgba(239, 68, 68, 0.08);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
   color: var(--live);
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   background: var(--live);
   border-radius: 50%;
   animation: pulse 1.4s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.7); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-/* ── Tabs ── */
 .tabs {
   display: flex;
-  padding: 0 20px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  padding: 0 16px;
 }
 
 .tab {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--muted);
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
-  padding: 12px 18px;
+  padding: 10px 14px;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.15s, border-color 0.15s;
 }
 
-.tab.active {
-  color: var(--gold);
-  border-bottom-color: var(--gold);
-}
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab:hover:not(.active) { color: var(--text); }
 
-.tab:hover:not(.active) {
-  color: var(--text);
-}
-
-/* ── Tab panels ── */
-.tab-panel {
-  display: none;
-  padding: 20px;
-}
-
-.tab-panel.active {
-  display: block;
-}
-
-/* ── Section label ── */
-.section-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
-
-/* ── Game cards ── */
-.game-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 10px;
+.day-strip {
   display: flex;
-  justify-content: space-between;
+  overflow-x: auto;
+  gap: 4px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  scrollbar-width: none;
+}
+
+.day-strip::-webkit-scrollbar { display: none; }
+
+.day-btn {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  transition: border-color 0.2s;
+  gap: 1px;
+  padding: 6px 10px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  min-width: 46px;
 }
 
-.game-card:hover {
-  border-color: rgba(201, 168, 76, 0.25);
+.day-btn:hover { background: var(--surface2); border-color: var(--dim); }
+
+.day-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
-.game-card.upcoming {
-  border-left: 3px solid var(--gold);
-}
+.day-btn.active .day-name,
+.day-btn.active .day-num { color: #000; }
 
-.game-card.final {
-  border-left: 3px solid var(--muted);
-}
-
-.team-block {
-  flex: 1;
-}
-
-.team-block.away {
-  text-align: right;
-}
-
-.team-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--text);
-}
-
-.team-sub {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 2px;
-  font-family: 'Barlow Condensed', sans-serif;
+.day-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1;
 }
 
-.score-block {
-  text-align: center;
-  min-width: 100px;
-}
-
-.score {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 26px;
-  letter-spacing: 2px;
+.day-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
   color: var(--text);
   line-height: 1;
 }
 
-.score.upcoming {
-  font-size: 14px;
-  color: var(--gold);
-  letter-spacing: 1px;
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
-.game-status {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.game-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.game-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  transition: background 0.1s;
+}
+
+.game-row:hover { background: var(--surface); }
+
+.team-block { display: flex; flex-direction: column; gap: 2px; }
+.team-block.away { align-items: flex-end; text-align: right; }
+
+.team-name {
+  font-family: 'DM Sans', sans-serif;
   font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.team-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 88px;
+}
+
+.score {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.score.time-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.status-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  margin-top: 4px;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.status-pill.final { background: var(--surface2); color: var(--muted); }
+
+.status-pill.upcoming {
+  background: rgba(42,122,75,0.12);
+  color: #4caf7d;
+  border: 1px solid rgba(42,122,75,0.25);
+}
+
+.no-games {
+  padding: 40px 16px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
   color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.game-status.live {
-  color: var(--live);
+.teams-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.game-status.upcoming {
-  color: var(--gold);
+.team-row {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  transition: background 0.1s;
 }
 
-/* ── Team cards ── */
-.team-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 18px;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: border-color 0.2s;
+.team-row:nth-child(even) { border-right: none; }
+.team-row:hover { background: var(--surface); }
+
+.team-row .team-name { font-size: 12px; font-weight: 700; }
+.team-row .team-city {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
 }
 
-.team-card:hover {
-  border-color: rgba(201, 168, 76, 0.25);
-}
-
-.team-card .team-name {
-  font-size: 15px;
-}
-
-.team-card .team-sub {
-  font-size: 11px;
-}
-
-/* ── Loading & error states ── */
 .loading {
+  padding: 32px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--muted);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding: 20px 0;
   text-align: center;
 }
 
 .error {
+  padding: 24px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
   color: var(--live);
-  font-size: 14px;
-  padding: 12px 0;
   text-align: center;
 }
