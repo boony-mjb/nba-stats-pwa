@@ -1,3 +1,7 @@
 # Software Engineering Major Project
 
-I need to add information here later
+## How To Run Locally
+1. clone/ download repo
+2. create .env
+3. install requirements
+4. run `python app.py`
