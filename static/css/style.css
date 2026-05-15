@@ -432,3 +432,363 @@ body {
   .conference-block { border-right: none; border-bottom: 1px solid var(--border); }
   .stat-pct { display: none; }
 }
+
+/* ══════════════════════════════════════
+   BRACKET PAGE
+══════════════════════════════════════ */
+
+.bracket-page { padding-bottom: 40px; }
+
+.bracket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.champion-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gold);
+}
+
+/* Conference colour strips */
+.conf-strip {
+  padding: 5px 16px;
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+}
+
+.east-strip { background: rgba(0, 80, 180, 0.08); border-left: 3px solid #1a5bb5; }
+.west-strip { background: rgba(180, 30, 30, 0.08); border-left: 3px solid #b51a1a; }
+
+.conf-strip-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Rounds grid — scrollable horizontally on mobile */
+.rounds-grid {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 12px 16px;
+  scrollbar-width: none;
+}
+
+.rounds-grid::-webkit-scrollbar { display: none; }
+
+.round-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.semis-col {
+  min-width: 140px;
+  justify-content: center;
+  padding-top: 32px;
+}
+
+.finals-col {
+  min-width: 140px;
+  justify-content: center;
+  padding-top: 96px;
+}
+
+.round-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Series cards */
+.series-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 12px;
+}
+
+.finals-card {
+  border-color: var(--gold);
+}
+
+.series-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.series-team:last-of-type { border-bottom: none; }
+
+.series-team.winner .series-name { color: var(--text); font-weight: 700; }
+.series-team.loser .series-name { color: var(--muted); }
+.series-team.loser .series-wins { color: var(--dim); }
+
+.series-seed {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 12px;
+  line-height: 1;
+}
+
+.series-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.series-wins {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  color: var(--gold);
+  line-height: 1;
+  min-width: 10px;
+  text-align: right;
+}
+
+.series-result {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 3px 8px;
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* NBA Finals block */
+.nba-finals-block {
+  margin: 16px 16px;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.finals-label-strip {
+  background: var(--gold);
+  color: #000;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 5px;
+}
+
+.finals-matchup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  gap: 8px;
+  background: var(--surface);
+}
+
+.finals-team { flex: 1; }
+.finals-team.champion { text-align: right; }
+
+.finals-conf {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.finals-team.champion .finals-conf { color: var(--gold); }
+
+.finals-name {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.finals-team.loser .finals-name { color: var(--muted); }
+
+.finals-record {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.finals-vs {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.finals-trophy { font-size: 18px; line-height: 1; margin-bottom: 2px; }
+
+.finals-score {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.finals-mvp {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  text-align: center;
+  padding: 6px;
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+}
+
+/* Eliminated seeds section */
+.eliminated-section {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.elim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.elim-block {
+  padding: 12px 16px;
+  border-right: 1px solid var(--border);
+}
+
+.elim-block:last-child { border-right: none; }
+
+.elim-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.elim-row:last-child { border-bottom: none; }
+
+.elim-seed {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--dim);
+  min-width: 16px;
+}
+
+.elim-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.elim-rec {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+}
+
+@media (max-width: 500px) {
+  .finals-matchup { flex-direction: column; text-align: center; }
+  .finals-team.champion { text-align: center; }
+  .elim-grid { grid-template-columns: 1fr; }
+  .elim-block { border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+/* ── Active / TBD series states ── */
+.active-series {
+  border-color: var(--gold);
+  position: relative;
+}
+
+.done-series {
+  border-color: var(--border);
+}
+
+.tbd-series {
+  border-color: var(--border);
+  opacity: 0.5;
+}
+
+.active-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: var(--gold);
+  background: rgba(232,184,75,0.1);
+  border-bottom: 1px solid var(--border);
+  padding: 3px 8px;
+  text-align: center;
+}
+
+.series-team.winning .series-name { color: var(--text); font-weight: 700; }
+.series-team.winning .series-wins { color: var(--gold); }
+.series-team.trailing .series-name { color: var(--muted); }
+.series-team.trailing .series-wins { color: var(--muted); }
+.series-team.tbd .series-name { color: var(--dim); }
+.series-team.tbd .series-wins { color: var(--dim); }
+
+.series-result.ongoing {
+  color: var(--gold);
+  background: rgba(232,184,75,0.06);
+}
+
+.series-result.tbd-result {
+  color: var(--dim);
+}
+
+.tbd-wins { color: var(--dim); }
+
+/* live tag in bracket header */
+.live-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+/* TBD finals */
+.tbd-finals {
+  border-color: var(--border2);
+  opacity: 0.7;
+}
+
+.tbd-finals .finals-label-strip {
+  background: var(--surface2);
+  color: var(--muted);
+}
+
+.tbd-finals .finals-score {
+  color: var(--muted);
+  font-size: 14px;
+}

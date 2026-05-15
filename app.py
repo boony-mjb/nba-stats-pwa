@@ -16,5 +16,10 @@ def playoffs():
     api_key = os.getenv('SPORTS_DB_KEY', '')
     return render_template('playoffs.html', api_key=api_key, active_page='playoffs')
 
+@app.route('/bracket')
+def bracket():
+    api_key = os.getenv('SPORTS_DB_KEY', '')
+    return render_template('bracket.html', api_key=api_key, active_page='bracket')
+
 if __name__ == '__main__':
     app.run(debug=True)
