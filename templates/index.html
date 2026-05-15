@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#c9a84c" />
+  <title>NBA Live</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <div id="app">
+
+    <header class="header">
+      <div class="wordmark">NBA<span>Live</span></div>
+      <div class="live-badge"><div class="dot"></div>Live</div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('scores')">Scores</button>
+      <button class="tab" onclick="showTab('standings')">Standings</button>
+    </div>
+
+    <div id="scores" class="tab-panel active">
+      <p class="section-label">Recent &amp; Upcoming Games</p>
+      <div id="scores-list"><div class="loading">Loading games...</div></div>
+    </div>
+
+    <div id="standings" class="tab-panel">
+      <p class="section-label">NBA Teams</p>
+      <div id="standings-list"><div class="loading">Loading teams...</div></div>
+    </div>
+
+  </div>
+
+  <script>
+    const API_KEY = "{{ api_key }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
