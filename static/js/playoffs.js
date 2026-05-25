@@ -1,30 +1,30 @@
 const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
 
-// 2025 NBA Playoff seedings - current as of May 2025
+// 2025-26 NBA Standings (final regular season)
 const EAST = [
-  { seed: 1, name: 'Cleveland Cavaliers', w: 64, l: 18 },
-  { seed: 2, name: 'Boston Celtics', w: 61, l: 21 },
-  { seed: 3, name: 'New York Knicks', w: 51, l: 31 },
-  { seed: 4, name: 'Milwaukee Bucks', w: 48, l: 34 },
-  { seed: 5, name: 'Indiana Pacers', w: 50, l: 32 },
-  { seed: 6, name: 'Miami Heat', w: 48, l: 34 },
-  { seed: 7, name: 'Atlanta Hawks', w: 44, l: 38 },
-  { seed: 8, name: 'Orlando Magic', w: 41, l: 41 },
-  { seed: 9, name: 'Chicago Bulls', w: 39, l: 43 },
-  { seed: 10, name: 'Philadelphia 76ers', w: 24, l: 58 },
+  { seed: 1, name: 'Detroit Pistons',       w: 60, l: 22 },
+  { seed: 2, name: 'Boston Celtics',         w: 56, l: 26 },
+  { seed: 3, name: 'New York Knicks',        w: 53, l: 29 },
+  { seed: 4, name: 'Cleveland Cavaliers',    w: 52, l: 30 },
+  { seed: 5, name: 'Toronto Raptors',        w: 46, l: 36 },
+  { seed: 6, name: 'Atlanta Hawks',          w: 46, l: 36 },
+  { seed: 7, name: 'Orlando Magic',          w: 45, l: 37 },
+  { seed: 8, name: 'Philadelphia 76ers',     w: 45, l: 37 },
+  { seed: 9, name: 'Charlotte Hornets',      w: 44, l: 38 },
+  { seed: 10, name: 'Miami Heat',            w: 43, l: 39 },
 ];
 
 const WEST = [
-  { seed: 1, name: 'Oklahoma City Thunder', w: 68, l: 14 },
-  { seed: 2, name: 'Houston Rockets', w: 52, l: 30 },
-  { seed: 3, name: 'Los Angeles Lakers', w: 50, l: 32 },
-  { seed: 4, name: 'Denver Nuggets', w: 49, l: 33 },
-  { seed: 5, name: 'Memphis Grizzlies', w: 49, l: 33 },
-  { seed: 6, name: 'Golden State Warriors', w: 48, l: 34 },
-  { seed: 7, name: 'Los Angeles Clippers', w: 42, l: 40 },
-  { seed: 8, name: 'Minnesota Timberwolves', w: 41, l: 41 },
-  { seed: 9, name: 'Sacramento Kings', w: 40, l: 42 },
-  { seed: 10, name: 'Phoenix Suns', w: 36, l: 46 },
+  { seed: 1, name: 'Oklahoma City Thunder',  w: 64, l: 18 },
+  { seed: 2, name: 'San Antonio Spurs',      w: 62, l: 20 },
+  { seed: 3, name: 'Denver Nuggets',         w: 54, l: 28 },
+  { seed: 4, name: 'Los Angeles Lakers',     w: 53, l: 29 },
+  { seed: 5, name: 'Houston Rockets',        w: 52, l: 30 },
+  { seed: 6, name: 'Minnesota Timberwolves', w: 49, l: 33 },
+  { seed: 7, name: 'Phoenix Suns',           w: 45, l: 37 },
+  { seed: 8, name: 'LA Clippers',            w: 42, l: 40 },
+  { seed: 9, name: 'Portland Trail Blazers', w: 42, l: 40 },
+  { seed: 10, name: 'Golden State Warriors', w: 37, l: 45 },
 ];
 
 function getSeedStyle(seed) {
