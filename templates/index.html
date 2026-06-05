@@ -14,9 +14,10 @@
   {% include 'nav.html' %}
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab('scores')">Scores</button>
-    <button class="tab" onclick="showTab('teams')">Teams</button>
-  </div>
+  <button class="tab active" onclick="showTab('scores')">Scores</button>
+  <button class="tab" onclick="showTab('teams')">Teams</button>
+  <button class="tab" onclick="showTab('nrl')">NRL</button>
+</div>
 
   <div id="scores" class="tab-panel active">
     <div class="day-strip" id="day-strip"></div>
@@ -33,6 +34,13 @@
     </div>
     <div id="teams-list"><div class="loading">Loading...</div></div>
   </div>
+
+  <div id="nrl" class="tab-panel">
+  <div class="section-head">
+    <span class="section-label">Recent NRL Games</span>
+  </div>
+  <div id="nrl-list"><div class="loading">Loading...</div></div>
+</div>
 
   <script>const API_KEY = "{{ api_key }}";</script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>

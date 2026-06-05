@@ -133,7 +133,7 @@ async function loadTeams() {
 
 function showTab(name) {
   document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['scores','teams'][i] === name);
+    t.classList.toggle('active', ['scores','teams','nrl'][i] === name);
   });
   document.querySelectorAll('.tab-panel').forEach(p => {
     p.classList.toggle('active', p.id === name);
@@ -141,8 +141,39 @@ function showTab(name) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  buildDayStrip();
-  loadAllGames();
+  loadScores();
+  loadUpcoming();
   loadTeams();
-  setInterval(loadAllGames, 60000);
+  loadNRL();
+  setInterval(loadScores, 60000);
 });
+
+const NRL_ID = '4957'; // replace with the actual ID you found
+
+async function loadNRL() {
+  try {
+    const res = await fetch(`${BASE}/eventspastleague.php?id=${NRL_ID}`);
+    const data = await res.json();
+    const events = (data.events || []).slice(0, 20);
+
+    document.getElementById('nrl-list').innerHTML = events.map(e => `
+      <div class="game-row" style="cursor:pointer" onclick="openBoxScore('${e.idEvent}')">
+        <div class="team-block">
+          <div class="team-name">${e.strHomeTeam}</div>
+          <div class="team-sub">Home</div>
+        </div>
+        <div class="score-block">
+          <div class="score">${e.intHomeScore} – ${e.intAwayScore}</div>
+          <div class="status-pill final">Final</div>
+        </div>
+        <div class="team-block away">
+          <div class="team-name">${e.strAwayTeam}</div>
+          <div class="team-sub">Away</div>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('nrl-list').innerHTML =
+      '<div class="error">Could not load NRL games.</div>';
+  }
+}

@@ -61,5 +61,5 @@ function buildHTML(teams) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('east-list').innerHTML = buildHTML(EAST);
   document.getElementById('west-list').innerHTML = buildHTML(WEST);
-  document.getElementById('season-label').textContent = '2024–25 Final Standings';
+  document.getElementById('season-label').textContent = '2025–26 Final Standings';
 });
