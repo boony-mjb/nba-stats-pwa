@@ -1,17 +1,17 @@
-const NBA_ID = '4387';
+const NRL_ID = '4416';
 const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
 
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-let allEvents = [];
+let nrlEvents = [];
 let selectedDate = '';
 
 // Store events by ID so we can look them up on click
 const eventStore = {};
 
 function buildDayStrip() {
-  const strip = document.getElementById('day-strip');
+  const strip = document.getElementById('nrl-day-strip');
   const today = new Date();
   const days = [];
 
@@ -42,7 +42,7 @@ function selectDay(date, btn) {
 
   const d = new Date(date);
   const isToday = date === new Date().toISOString().split('T')[0];
-  document.getElementById('day-label').textContent = isToday
+  document.getElementById('nrl-day-label').textContent = isToday
     ? 'Today'
     : `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
 
@@ -50,10 +50,10 @@ function selectDay(date, btn) {
 }
 
 function renderGamesForDate(date) {
-  const list = document.getElementById('scores-list');
-  const countEl = document.getElementById('game-count');
+  const list = document.getElementById('nrl-list');
+  const countEl = document.getElementById('nrl-game-count');
 
-  const games = allEvents.filter(e => e.dateEvent === date);
+  const games = nrlEvents.filter(e => e.dateEvent === date);
 
   if (!games.length) {
     countEl.textContent = '';
@@ -95,8 +95,8 @@ function renderGamesForDate(date) {
 async function loadAllGames() {
   try {
     const [pastRes, nextRes] = await Promise.all([
-      fetch(`${BASE}/eventspastleague.php?id=${NBA_ID}`),
-      fetch(`${BASE}/eventsnextleague.php?id=${NBA_ID}`)
+      fetch(`${BASE}/eventspastleague.php?id=${NRL_ID}`),
+      fetch(`${BASE}/eventsnextleague.php?id=${NRL_ID}`)
     ]);
 
     const pastData = await pastRes.json();
@@ -105,38 +105,15 @@ async function loadAllGames() {
     const past = pastData.events || [];
     const next = nextData.events || [];
 
-    allEvents = [...past, ...next];
+    nrlEvents = [...past, ...next];
 
     // Store all events in lookup object
-    allEvents.forEach(e => { eventStore[e.idEvent] = e; });
+    nrlEvents.forEach(e => { eventStore[e.idEvent] = e; });
 
     renderGamesForDate(selectedDate);
   } catch (e) {
-    document.getElementById('scores-list').innerHTML =
+    document.getElementById('nrl-list').innerHTML =
       '<div class="error">Could not load games. Check your API key.</div>';
-  }
-}
-
-async function loadTeams() {
-  try {
-    const res = await fetch(`${BASE}/search_all_teams.php?l=NBA`);
-    const data = await res.json();
-    const teams = (data.teams || []).sort((a, b) =>
-      a.strTeam.localeCompare(b.strTeam)
-    );
-
-    document.getElementById('teams-list').innerHTML =
-      '<div class="teams-grid">' +
-      teams.map(t => `
-        <div class="team-row">
-          <div class="team-name">${t.strTeam}</div>
-          <div class="team-city">${t.strStadium || ''}</div>
-        </div>
-      `).join('') +
-      '</div>';
-  } catch (e) {
-    document.getElementById('teams-list').innerHTML =
-      '<div class="error">Could not load teams.</div>';
   }
 }
 
@@ -171,7 +148,7 @@ function openBoxScore(eventId) {
       </div>
     </div>
     <p style="font-size:11px; color:var(--muted); text-align:center;">
-      ${event.strLeague ?? 'NBA'} · ${event.strSeason ?? '2024-25'}
+      ${event.strLeague ?? 'NRL'} · ${event.strSeason ?? ''}
     </p>
   `;
 }
@@ -180,16 +157,6 @@ function closeBoxScore() {
   document.getElementById('box-score-modal').style.display = 'none';
 }
 
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['scores','teams'][i] === name);
-  });
-  document.querySelectorAll('.tab-panel').forEach(p => {
-    p.classList.toggle('active', p.id === name);
-  });
-}
-
-window.showTab = showTab;
 window.openBoxScore = openBoxScore;
 window.closeBoxScore = closeBoxScore;
 window.selectDay = selectDay;
@@ -197,6 +164,5 @@ window.selectDay = selectDay;
 document.addEventListener('DOMContentLoaded', () => {
   buildDayStrip();
   loadAllGames();
-  loadTeams();
   setInterval(loadAllGames, 60000);
 });
