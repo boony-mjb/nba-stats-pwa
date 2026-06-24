@@ -827,3 +827,17 @@ body {
   cursor: pointer;
   line-height: 1;
 }
+
+/* Champion highlight (post-Finals bracket state) */
+.champion-tag {
+  color: var(--gold) !important;
+}
+
+.champion-tag .dot {
+  background: var(--gold) !important;
+  box-shadow: 0 0 0 0 rgba(232, 184, 75, 0.6);
+}
+
+.champion-finals {
+  box-shadow: 0 0 16px rgba(232, 184, 75, 0.35);
+}
