@@ -1,4 +1,5 @@
-const BASE = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
+// This page uses hardcoded standings data, not the live API,
+// so no API key / BASE URL is needed here.
 
 // 2025-26 NBA Standings (final regular season)
 const EAST = [

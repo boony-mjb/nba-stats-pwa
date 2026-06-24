@@ -42,6 +42,13 @@
   <div id="nrl-list"><div class="loading">Loading...</div></div>
 </div>
 
+  <div id="box-score-modal" class="modal-overlay" onclick="if(event.target===this) closeBoxScore()">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeBoxScore()">&times;</button>
+      <div id="box-score-content"></div>
+    </div>
+  </div>
+
   <script>const API_KEY = "{{ api_key }}";</script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
