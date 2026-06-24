@@ -94,17 +94,42 @@ body {
 .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 .tab:hover:not(.active) { color: var(--text); }
 
+.day-strip-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
 .day-strip {
   display: flex;
   overflow-x: auto;
   gap: 4px;
   padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  flex: 1;
   scrollbar-width: none;
 }
 
 .day-strip::-webkit-scrollbar { display: none; }
+
+.date-picker {
+  flex-shrink: 0;
+  margin: 8px 12px 8px 0;
+  padding: 0 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.date-picker:hover { border-color: var(--dim); }
+.date-picker:focus { outline: 1px solid var(--gold); border-color: var(--gold); }
+
+/* Webkit calendar icon needs to be visible against the dark background */
+.date-picker::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
 .day-btn {
   flex-shrink: 0;

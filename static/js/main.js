@@ -38,6 +38,7 @@ function buildDayStrip() {
 function selectDay(date, btn) {
   document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  document.getElementById('date-picker').value = '';
   selectedDate = date;
 
   const d = new Date(date);
@@ -45,6 +46,22 @@ function selectDay(date, btn) {
   document.getElementById('day-label').textContent = isToday
     ? 'Today'
     : `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+
+  renderGamesForDate(date);
+}
+
+function selectDateFromPicker(date) {
+  if (!date) return;
+
+  // Deselect any active day-strip button, since the picker takes over
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  selectedDate = date;
+
+  const d = new Date(`${date}T00:00:00`);
+  const isToday = date === new Date().toISOString().split('T')[0];
+  document.getElementById('day-label').textContent = isToday
+    ? 'Today'
+    : `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 
   renderGamesForDate(date);
 }
@@ -193,6 +210,7 @@ window.showTab = showTab;
 window.openBoxScore = openBoxScore;
 window.closeBoxScore = closeBoxScore;
 window.selectDay = selectDay;
+window.selectDateFromPicker = selectDateFromPicker;
 
 document.addEventListener('DOMContentLoaded', () => {
   buildDayStrip();

@@ -19,7 +19,10 @@
 </div>
 
   <div id="scores" class="tab-panel active">
-    <div class="day-strip" id="day-strip"></div>
+    <div class="day-strip-row">
+      <div class="day-strip" id="day-strip"></div>
+      <input type="date" id="date-picker" class="date-picker" onchange="selectDateFromPicker(this.value)" />
+    </div>
     <div class="section-head">
       <span class="section-label" id="day-label">Today</span>
       <span class="game-count" id="game-count"></span>
