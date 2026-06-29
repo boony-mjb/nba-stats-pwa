@@ -18,7 +18,7 @@ async function refreshFavourites() {
 
 async function loadTeamBadges() {
   try {
-    const res = await fetch(`${BASE}/search_all_teams.php?l=NRL`);
+    const res = await fetch(`${BASE}/search_all_teams.php?l=Australian_National_Rugby_League`);
     const data = await res.json();
     (data.teams || []).forEach(t => { teamLookup[t.strTeam] = t; });
     await refreshFavourites();
@@ -132,13 +132,13 @@ function renderGamesForDate(date) {
 
 function teamBlock(teamName, subLabel, away) {
   const team = teamLookup[teamName];
-  const badge = team && team.strTeamBadge
-    ? `<img class="team-logo" src="${team.strTeamBadge}/preview" alt="" onerror="this.style.display='none'" />`
+  const badge = team && (team.strBadge || team.strTeamBadge)
+    ? `<img class="team-logo" src="${team.strBadge || team.strTeamBadge}/small" alt="" onerror="this.style.display='none'" />`
     : '';
   const isFav = team && favouriteIds.has(team.idTeam);
   const star = team
     ? `<button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
-        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strTeamBadge || ''}')">★</button>`
+        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strBadge || team.strTeamBadge || ''}')">★</button>`
     : '';
 
   return `

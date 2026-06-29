@@ -117,13 +117,13 @@ function renderGamesForDate(date) {
 // `away` flips text alignment to match the existing away-team styling.
 function teamBlock(teamName, subLabel, away) {
   const team = teamLookup[teamName];
-  const badge = team && team.strTeamBadge
-    ? `<img class="team-logo" src="${team.strTeamBadge}/preview" alt="" onerror="this.style.display='none'" />`
+  const badge = team && (team.strBadge || team.strTeamBadge)
+    ? `<img class="team-logo" src="${team.strBadge || team.strTeamBadge}/small" alt="" onerror="this.style.display='none'" />`
     : '';
   const isFav = team && favouriteIds.has(team.idTeam);
   const star = team
     ? `<button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
-        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strTeamBadge || ''}')">★</button>`
+        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strBadge || team.strTeamBadge || ''}')">★</button>`
     : '';
 
   return `
@@ -193,8 +193,8 @@ function renderTeamsList(teams) {
     '<div class="teams-grid">' +
     sorted.map(t => {
       const isFav = favouriteIds.has(t.idTeam);
-      const badge = t.strTeamBadge
-        ? `<img class="team-logo" src="${t.strTeamBadge}/preview" alt="" onerror="this.style.display='none'" />`
+      const badge = t.strBadge || t.strTeamBadge
+        ? `<img class="team-logo" src="${t.strBadge || t.strTeamBadge}/small" alt="" onerror="this.style.display='none'" />`
         : '';
       return `
         <div class="team-row">
@@ -204,7 +204,7 @@ function renderTeamsList(teams) {
             <div class="team-city">${t.strStadium || ''}</div>
           </div>
           <button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
-            onclick="toggleFavourite('${t.idTeam}', '${t.strTeam.replace(/'/g, "\\'")}', '${t.strTeamBadge || ''}')">★</button>
+            onclick="toggleFavourite('${t.idTeam}', '${t.strTeam.replace(/'/g, "\\'")}', '${t.strBadge || t.strTeamBadge || ''}')">★</button>
         </div>
       `;
     }).join('') +

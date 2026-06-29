@@ -34,8 +34,7 @@ def nrl_teams():
 
 @app.route('/nrl/standings')
 def nrl_standings():
-    api_key = os.getenv('SPORTS_DB_KEY', '')
-    return render_template('nrl_standings.html', api_key=api_key, active_page='standings')
+    return render_template('nrl_standings.html', active_page='standings')
 
 @app.route('/nrl/rules')
 def nrl_rules():
