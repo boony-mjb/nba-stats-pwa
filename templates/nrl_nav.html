@@ -1,6 +1,12 @@
 <header class="header nrl-header">
   <div class="wordmark">NRL<span>Live</span></div>
-  <div class="live-badge"><div class="dot"></div>Live</div>
+  <div class="header-right">
+    <div class="live-badge"><div class="dot"></div>Live</div>
+    <div class="user-badge">
+      <span>{{ current_user_label() }}</span>
+      <a href="{{ url_for('logout') }}" class="logout-link">Log out</a>
+    </div>
+  </div>
 </header>
 
 <nav class="navbar">

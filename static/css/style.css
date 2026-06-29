@@ -210,7 +210,7 @@ body {
 
 .game-row:hover { background: var(--surface); }
 
-.team-block { display: flex; flex-direction: column; gap: 2px; }
+.team-block { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
 .team-block.away { align-items: flex-end; text-align: right; }
 
 .team-logo {
@@ -948,3 +948,138 @@ body {
 
 /* NRL standings page reuses the playoffs ladder styling */
 .standings-table { padding: 4px 0; }
+
+/* Header right side: live badge + logged-in user/guest + logout */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.user-badge span {
+  color: var(--gold);
+}
+
+.logout-link {
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 1px solid var(--border2);
+  padding-left: 8px;
+}
+
+.logout-link:hover { color: var(--gold); }
+
+/* Login / Register pages */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 28px 24px;
+  background: var(--surface);
+}
+
+.auth-wordmark {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.auth-error {
+  background: rgba(220, 60, 60, 0.12);
+  border: 1px solid rgba(220, 60, 60, 0.4);
+  color: #ff8080;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  margin-bottom: 14px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auth-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.auth-input {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  padding: 9px 10px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.auth-button {
+  margin-top: 18px;
+  background: var(--gold);
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.auth-button:hover { opacity: 0.9; }
+
+.auth-guest-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.auth-guest-link:hover { color: var(--gold); }
+
+.auth-switch {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.auth-switch a { color: var(--gold); text-decoration: none; }
