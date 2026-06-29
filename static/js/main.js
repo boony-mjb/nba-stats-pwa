@@ -7,6 +7,16 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 let allEvents = [];
 let selectedDate = '';
 
+// Maps team name -> { idTeam, strTeamBadge }, built once teams load.
+// Lets us show logos/star buttons on game rows, which only have team names.
+let teamLookup = {};
+let favouriteIds = new Set();
+
+async function refreshFavourites() {
+  const favs = await window.FavouritesDB.getAll();
+  favouriteIds = new Set(favs.filter(f => f.league === 'NBA').map(f => f.teamId));
+}
+
 // Store events by ID so we can look them up on click
 const eventStore = {};
 
@@ -93,20 +103,37 @@ function renderGamesForDate(date) {
 
     return `
       <div class="game-row" style="cursor:pointer" onclick="openBoxScore('${e.idEvent}')">
-        <div class="team-block">
-          <div class="team-name">${e.strHomeTeam}</div>
-          <div class="team-sub">Home</div>
-        </div>
+        ${teamBlock(e.strHomeTeam, 'Home')}
         <div class="score-block">
           ${scoreDisplay}
         </div>
-        <div class="team-block away">
-          <div class="team-name">${e.strAwayTeam}</div>
-          <div class="team-sub">Away</div>
-        </div>
+        ${teamBlock(e.strAwayTeam, 'Away', true)}
       </div>
     `;
   }).join('');
+}
+
+// Builds a team-block with logo + favourite star, looked up by team name.
+// `away` flips text alignment to match the existing away-team styling.
+function teamBlock(teamName, subLabel, away) {
+  const team = teamLookup[teamName];
+  const badge = team && team.strTeamBadge
+    ? `<img class="team-logo" src="${team.strTeamBadge}/preview" alt="" onerror="this.style.display='none'" />`
+    : '';
+  const isFav = team && favouriteIds.has(team.idTeam);
+  const star = team
+    ? `<button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
+        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strTeamBadge || ''}')">★</button>`
+    : '';
+
+  return `
+    <div class="team-block ${away ? 'away' : ''}">
+      ${badge}
+      <div class="team-name">${teamName}</div>
+      <div class="team-sub">${subLabel}</div>
+      ${star}
+    </div>
+  `;
 }
 
 async function loadAllGames() {
@@ -142,19 +169,53 @@ async function loadTeams() {
       a.strTeam.localeCompare(b.strTeam)
     );
 
-    document.getElementById('teams-list').innerHTML =
-      '<div class="teams-grid">' +
-      teams.map(t => `
-        <div class="team-row">
-          <div class="team-name">${t.strTeam}</div>
-          <div class="team-city">${t.strStadium || ''}</div>
-        </div>
-      `).join('') +
-      '</div>';
+    // Build the name -> team lookup used by game-row logos/stars,
+    // then re-render whatever's currently on screen so it picks up logos.
+    teams.forEach(t => { teamLookup[t.strTeam] = t; });
+    await refreshFavourites();
+    renderTeamsList(teams);
+    renderGamesForDate(selectedDate);
   } catch (e) {
     document.getElementById('teams-list').innerHTML =
       '<div class="error">Could not load teams.</div>';
   }
+}
+
+function renderTeamsList(teams) {
+  const sorted = [...teams].sort((a, b) => {
+    const favA = favouriteIds.has(a.idTeam) ? 0 : 1;
+    const favB = favouriteIds.has(b.idTeam) ? 0 : 1;
+    if (favA !== favB) return favA - favB;
+    return a.strTeam.localeCompare(b.strTeam);
+  });
+
+  document.getElementById('teams-list').innerHTML =
+    '<div class="teams-grid">' +
+    sorted.map(t => {
+      const isFav = favouriteIds.has(t.idTeam);
+      const badge = t.strTeamBadge
+        ? `<img class="team-logo" src="${t.strTeamBadge}/preview" alt="" onerror="this.style.display='none'" />`
+        : '';
+      return `
+        <div class="team-row">
+          ${badge}
+          <div class="team-info">
+            <div class="team-name">${t.strTeam}</div>
+            <div class="team-city">${t.strStadium || ''}</div>
+          </div>
+          <button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
+            onclick="toggleFavourite('${t.idTeam}', '${t.strTeam.replace(/'/g, "\\'")}', '${t.strTeamBadge || ''}')">★</button>
+        </div>
+      `;
+    }).join('') +
+    '</div>';
+}
+
+async function toggleFavourite(teamId, teamName, teamBadge) {
+  await window.FavouritesDB.toggle('NBA', teamId, teamName, teamBadge);
+  await refreshFavourites();
+  renderTeamsList(Object.values(teamLookup));
+  renderGamesForDate(selectedDate);
 }
 
 function openBoxScore(eventId) {
@@ -211,8 +272,10 @@ window.openBoxScore = openBoxScore;
 window.closeBoxScore = closeBoxScore;
 window.selectDay = selectDay;
 window.selectDateFromPicker = selectDateFromPicker;
+window.toggleFavourite = toggleFavourite;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await refreshFavourites();
   buildDayStrip();
   loadAllGames();
   loadTeams();

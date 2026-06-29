@@ -213,6 +213,28 @@ body {
 .team-block { display: flex; flex-direction: column; gap: 2px; }
 .team-block.away { align-items: flex-end; text-align: right; }
 
+.team-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-bottom: 2px;
+}
+
+.fav-star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--border2);
+  font-size: 13px;
+  padding: 0;
+  margin-top: 2px;
+  line-height: 1;
+  transition: color 0.15s, transform 0.1s;
+}
+
+.fav-star:hover { color: var(--gold); transform: scale(1.15); }
+.fav-star.active { color: var(--gold); }
+
 .team-name {
   font-family: 'DM Sans', sans-serif;
   font-weight: 700;
@@ -282,11 +304,18 @@ body {
 }
 
 .team-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 9px 14px;
   border-bottom: 1px solid var(--border);
   border-right: 1px solid var(--border);
   transition: background 0.1s;
 }
+
+.team-row .team-logo { margin-bottom: 0; flex-shrink: 0; }
+.team-row .team-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.team-row .fav-star { margin-top: 0; font-size: 15px; flex-shrink: 0; }
 
 .team-row:nth-child(even) { border-right: none; }
 .team-row:hover { background: var(--surface); }
