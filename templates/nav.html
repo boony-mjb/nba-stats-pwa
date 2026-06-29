@@ -16,8 +16,12 @@
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="4" rx="1"/><rect x="3" y="17" width="5" height="4" rx="1"/><rect x="16" y="10" width="5" height="4" rx="1"/><line x1="8" y1="5" x2="12" y2="5"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="12" y1="19" x2="8" y2="19"/><line x1="16" y1="12" x2="12" y2="12"/></svg>
     Bracket
   </a>
-  <a href="{{ url_for('nrl') }}" class="nav-link {% if active_page == 'nrl' %}active{% endif %}">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>
-    NRL
+  <a href="{{ url_for('rules') }}" class="nav-link {% if active_page == 'rules' %}active{% endif %}">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    Rules
   </a>
 </nav>
+
+<div class="app-switch">
+  <a href="{{ url_for('nrl') }}">Switch to NRL Live →</a>
+</div>

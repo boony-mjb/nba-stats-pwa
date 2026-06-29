@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e8b84b" />
+  <title>NBA Live — Rules</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  {% include 'nav.html' %}
+
+  <div class="section-head">
+    <span class="section-label">Basics of NBA Basketball</span>
+  </div>
+
+  <div class="rules-list">
+
+    <div class="rule-card">
+      <div class="rule-title">Game Structure</div>
+      <p>A game is split into four 12-minute quarters. If the score is tied after the fourth quarter, teams play a 5-minute overtime period — and another if needed — until someone's ahead.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Scoring</div>
+      <p>A made basket is worth 2 points inside the three-point arc, 3 points from beyond it, and a free throw following a foul is worth 1 point.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">The Shot Clock</div>
+      <p>A team has 24 seconds to attempt a shot once it gains possession. Failing to do so turns the ball over to the other team.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Fouls &amp; Free Throws</div>
+      <p>Personal fouls are called for illegal contact. A player who picks up 6 fouls in a game is disqualified and must leave the court. Certain fouls award the other team free throws.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Violations</div>
+      <p>Common violations include travelling (taking steps without dribbling), a double dribble (dribbling, stopping, then dribbling again), and goaltending (interfering with a shot on its way down toward the rim).</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Playoffs</div>
+      <p>The top teams from each conference make the playoffs, which are played as best-of-seven series across four rounds, ending in the NBA Finals between the two conference champions.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

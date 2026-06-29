@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e8b84b" />
+  <title>NRL Live — Rules</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  {% include 'nrl_nav.html' %}
+
+  <div class="section-head">
+    <span class="section-label">Basics of Rugby League</span>
+  </div>
+
+  <div class="rules-list">
+
+    <div class="rule-card">
+      <div class="rule-title">Game Structure</div>
+      <p>A match is played in two 40-minute halves, with a short break at half-time. The team with more points when time expires wins.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Scoring</div>
+      <p>A try (grounding the ball over the opponent's try line) is worth 4 points. The conversion kick afterward is worth 2, a penalty kick at goal is worth 2, and a drop goal during play is worth 1.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Tackles &amp; The Six-Tackle Rule</div>
+      <p>The team with the ball gets six tackles to advance and score. If they're tackled a sixth time without scoring, possession switches to the other team.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">The Play-the-Ball</div>
+      <p>After each tackle, the ball carrier gets up and rolls the ball backward with their foot to a teammate, restarting play without a stoppage.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Offside</div>
+      <p>Players on the defending team must stay behind the ball (or behind the back of a ruck/play-the-ball) until it's played, or they're penalised for offside.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">The Ladder &amp; Finals</div>
+      <p>Teams earn 2 points for a win and 1 for a draw across the regular season. The top 8 on the ladder qualify for a finals series, which culminates in the Grand Final.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

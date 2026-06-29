@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e8b84b" />
+  <title>NRL Live — Standings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  {% include 'nrl_nav.html' %}
+
+  <div class="section-head">
+    <span class="section-label">NRL Ladder</span>
+    <span class="game-count" id="nrl-season-label"></span>
+  </div>
+
+  <div id="nrl-standings-list"><div class="loading">Loading...</div></div>
+
+  <script>const API_KEY = "{{ api_key }}";</script>
+  <script src="{{ url_for('static', filename='js/nrl-standings.js') }}"></script>
+</body>
+</html>
