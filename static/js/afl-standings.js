@@ -31,7 +31,7 @@ const LADDER = [
   { rank: 18, name: 'Essendon',                      w: 2,  l: 13, pts: 8 },
 ];
 
-const LADDER_UPDATED = 'Not yet filled in — edit LADDER + LADDER_UPDATED at the top of afl-standings.js';
+const LADDER_UPDATED = '2026-07-01'
 
 function renderLadder() {
   const list = document.getElementById('afl-standings-list');

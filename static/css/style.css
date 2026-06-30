@@ -487,9 +487,7 @@ body {
   .stat-pct { display: none; }
 }
 
-/* ══════════════════════════════════════
-   BRACKET PAGE
-══════════════════════════════════════ */
+/* ── Bracket page ── */
 
 .bracket-page { padding-bottom: 40px; }
 
@@ -507,6 +505,11 @@ body {
   font-size: 10px;
   letter-spacing: 1px;
   color: var(--gold);
+}
+
+.champion-tag .dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(232, 184, 75, 0.6);
 }
 
 /* Conference colour strips */
@@ -846,6 +849,12 @@ body {
   color: var(--muted);
   font-size: 14px;
 }
+
+/* Glow applied to .nba-finals-block once a champion is decided (see bracket.html) */
+.champion-finals {
+  box-shadow: 0 0 16px rgba(232, 184, 75, 0.35);
+}
+
 /* Box score modal (used by main.js openBoxScore/closeBoxScore) */
 .modal-overlay {
   display: none;
@@ -882,20 +891,6 @@ body {
   line-height: 1;
 }
 
-/* Champion highlight (post-Finals bracket state) */
-.champion-tag {
-  color: var(--gold) !important;
-}
-
-.champion-tag .dot {
-  background: var(--gold) !important;
-  box-shadow: 0 0 0 0 rgba(232, 184, 75, 0.6);
-}
-
-.champion-finals {
-  box-shadow: 0 0 16px rgba(232, 184, 75, 0.35);
-}
-
 /* Rules pages */
 .rules-list {
   padding: 12px 16px;
@@ -927,7 +922,7 @@ body {
   margin: 0;
 }
 
-/* App switch link (NBA <-> NRL) */
+/* App switch links — jumps between the NBA / NRL / AFL mini-apps */
 .app-switch {
   text-align: center;
   padding: 6px;
