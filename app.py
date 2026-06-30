@@ -163,6 +163,20 @@ def manifest():
 def service_worker():
     return send_from_directory('.', 'sw.js', mimetype='application/javascript')
 
+@app.context_processor
+def inject_active_app():
+    """Lets app_switch.html know which sport's app is currently active,
+    without needing every single route to pass it manually."""
+    path = request.path
+    if path.startswith('/nrl'):
+        app_name = 'nrl'
+    elif path.startswith('/afl'):
+        app_name = 'afl'
+    else:
+        app_name = 'nba'
+    return {'active_app': app_name}
+
+
 @app.route('/')
 def index():
     api_key = os.getenv('SPORTS_DB_KEY', '')
@@ -196,6 +210,26 @@ def nrl_standings():
 @app.route('/nrl/rules')
 def nrl_rules():
     return render_template('nrl_rules.html', active_page='rules')
+
+# --- AFL mini-app: same shape as NRL, its own nav and Scores/Teams/Standings/Rules ---
+
+@app.route('/afl')
+def afl():
+    api_key = os.getenv('SPORTS_DB_KEY', '')
+    return render_template('afl.html', api_key=api_key, active_page='scores')
+
+@app.route('/afl/teams')
+def afl_teams():
+    api_key = os.getenv('SPORTS_DB_KEY', '')
+    return render_template('afl_teams.html', api_key=api_key, active_page='teams')
+
+@app.route('/afl/standings')
+def afl_standings():
+    return render_template('afl_standings.html', active_page='standings')
+
+@app.route('/afl/rules')
+def afl_rules():
+    return render_template('afl_rules.html', active_page='rules')
 
 @app.route('/bracket')
 def bracket():
