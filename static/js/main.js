@@ -12,6 +12,57 @@ let selectedDate = '';
 let teamLookup = {};
 let favouriteIds = new Set();
 
+// ── In-memory API cache ───────────────────────────────────────────────────────
+// Stores {data, ts} so stale entries expire after CACHE_TTL ms.
+// Teams change rarely (24h), scores may change every minute (1m).
+const CACHE = {};
+const CACHE_TTL = {
+  teams:  24 * 60 * 60 * 1000,  // 24 hours
+  events:       60 * 1000,       // 1 minute
+};
+
+async function cachedFetch(url, ttlMs) {
+  const cached = CACHE[url];
+  if (cached && Date.now() - cached.ts < ttlMs) {
+    return cached.data;
+  }
+  const res  = await fetch(url);
+  const data = await res.json();
+  CACHE[url] = { data, ts: Date.now() };
+  return data;
+}
+
+// ── Lazy image loading ────────────────────────────────────────────────────────
+// Instead of loading every badge URL up front, we set data-src and swap to src
+// only when the image scrolls into the viewport.
+const lazyObserver = typeof IntersectionObserver !== 'undefined'
+  ? new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+          lazyObserver.unobserve(img);
+        }
+      });
+    }, { rootMargin: '100px' })
+  : null;
+
+function lazyImg(src, alt, className) {
+  if (!src) return '';
+  // If IntersectionObserver isn't available (old browsers), fall back to eager loading
+  if (!lazyObserver) {
+    return `<img class="${className}" src="${src}" alt="${alt}" onerror="this.style.display='none'" />`;
+  }
+  return `<img class="${className}" data-src="${src}" alt="${alt}" onerror="this.style.display='none'" />`;
+}
+
+// Called after rendering any HTML that contains lazy images so the observer
+// picks up the newly-added <img data-src="..."> elements.
+function observeLazyImages() {
+  document.querySelectorAll('img[data-src]').forEach(img => lazyObserver && lazyObserver.observe(img));
+}
+
 async function refreshFavourites() {
   const favs = await window.FavouritesDB.getAll();
   favouriteIds = new Set(favs.filter(f => f.league === 'NBA').map(f => f.teamId));
@@ -91,7 +142,6 @@ function renderGamesForDate(date) {
   countEl.textContent = `${games.length} game${games.length !== 1 ? 's' : ''}`;
 
   list.innerHTML = games.map(e => {
-    // Store event in lookup object using its ID
     eventStore[e.idEvent] = e;
 
     const hasScore = e.intHomeScore !== null && e.intHomeScore !== '';
@@ -111,19 +161,20 @@ function renderGamesForDate(date) {
       </div>
     `;
   }).join('');
+
+  observeLazyImages();
 }
 
 // Builds a team-block with logo + favourite star, looked up by team name.
 // `away` flips text alignment to match the existing away-team styling.
 function teamBlock(teamName, subLabel, away) {
-  const team = teamLookup[teamName];
-  const badge = team && (team.strBadge || team.strTeamBadge)
-    ? `<img class="team-logo" src="${team.strBadge || team.strTeamBadge}/small" alt="" onerror="this.style.display='none'" />`
-    : '';
+  const team  = teamLookup[teamName];
+  const src   = team && (team.strBadge || team.strTeamBadge);
+  const badge = src ? lazyImg(`${src}/small`, '', 'team-logo') : '';
   const isFav = team && favouriteIds.has(team.idTeam);
-  const star = team
+  const star  = team
     ? `<button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
-        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${team.strBadge || team.strTeamBadge || ''}')">★</button>`
+        onclick="event.stopPropagation(); toggleFavourite('${team.idTeam}', '${teamName.replace(/'/g, "\\'")}', '${src || ''}')">★</button>`
     : '';
 
   return `
@@ -138,20 +189,15 @@ function teamBlock(teamName, subLabel, away) {
 
 async function loadAllGames() {
   try {
-    const [pastRes, nextRes] = await Promise.all([
-      fetch(`${BASE}/eventspastleague.php?id=${NBA_ID}`),
-      fetch(`${BASE}/eventsnextleague.php?id=${NBA_ID}`)
+    const [pastData, nextData] = await Promise.all([
+      cachedFetch(`${BASE}/eventspastleague.php?id=${NBA_ID}`, CACHE_TTL.events),
+      cachedFetch(`${BASE}/eventsnextleague.php?id=${NBA_ID}`, CACHE_TTL.events)
     ]);
-
-    const pastData = await pastRes.json();
-    const nextData = await nextRes.json();
 
     const past = pastData.events || [];
     const next = nextData.events || [];
 
     allEvents = [...past, ...next];
-
-    // Store all events in lookup object
     allEvents.forEach(e => { eventStore[e.idEvent] = e; });
 
     renderGamesForDate(selectedDate);
@@ -163,14 +209,9 @@ async function loadAllGames() {
 
 async function loadTeams() {
   try {
-    const res = await fetch(`${BASE}/search_all_teams.php?l=NBA`);
-    const data = await res.json();
-    const teams = (data.teams || []).sort((a, b) =>
-      a.strTeam.localeCompare(b.strTeam)
-    );
+    const data  = await cachedFetch(`${BASE}/search_all_teams.php?l=NBA`, CACHE_TTL.teams);
+    const teams = (data.teams || []).sort((a, b) => a.strTeam.localeCompare(b.strTeam));
 
-    // Build the name -> team lookup used by game-row logos/stars,
-    // then re-render whatever's currently on screen so it picks up logos.
     teams.forEach(t => { teamLookup[t.strTeam] = t; });
     await refreshFavourites();
     renderTeamsList(teams);
@@ -193,9 +234,8 @@ function renderTeamsList(teams) {
     '<div class="teams-grid">' +
     sorted.map(t => {
       const isFav = favouriteIds.has(t.idTeam);
-      const badge = t.strBadge || t.strTeamBadge
-        ? `<img class="team-logo" src="${t.strBadge || t.strTeamBadge}/small" alt="" onerror="this.style.display='none'" />`
-        : '';
+      const src   = t.strBadge || t.strTeamBadge;
+      const badge = src ? lazyImg(`${src}/small`, '', 'team-logo') : '';
       return `
         <div class="team-row">
           ${badge}
@@ -204,11 +244,13 @@ function renderTeamsList(teams) {
             <div class="team-city">${t.strStadium || ''}</div>
           </div>
           <button class="fav-star ${isFav ? 'active' : ''}" title="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
-            onclick="toggleFavourite('${t.idTeam}', '${t.strTeam.replace(/'/g, "\\'")}', '${t.strBadge || t.strTeamBadge || ''}')">★</button>
+            onclick="toggleFavourite('${t.idTeam}', '${t.strTeam.replace(/'/g, "\\'")}', '${src || ''}')">★</button>
         </div>
       `;
     }).join('') +
     '</div>';
+
+  observeLazyImages();
 }
 
 async function toggleFavourite(teamId, teamName, teamBadge) {
@@ -223,6 +265,8 @@ function openBoxScore(eventId) {
   if (!event) return;
 
   document.getElementById('box-score-modal').style.display = 'block';
+
+  const isUpcoming = event.intHomeScore === null || event.intHomeScore === '';
 
   document.getElementById('box-score-content').innerHTML = `
     <h2 style="font-family:'Bebas Neue',sans-serif; font-size:20px; margin-bottom:12px;">
@@ -251,7 +295,18 @@ function openBoxScore(eventId) {
     <p style="font-size:11px; color:var(--muted); text-align:center;">
       ${event.strLeague ?? 'NBA'} · ${event.strSeason ?? '2024-25'}
     </p>
+    ${isUpcoming ? '<div id="prediction-mount"></div>' : ''}
   `;
+
+  // Only show the AI prediction widget for upcoming (unplayed) games
+  if (isUpcoming && window.renderPredictionWidget) {
+    renderPredictionWidget(
+      document.getElementById('prediction-mount'),
+      event.strHomeTeam,
+      event.strAwayTeam,
+      'NBA'
+    );
+  }
 }
 
 function closeBoxScore() {

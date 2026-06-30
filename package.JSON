@@ -1,0 +1,15 @@
+{
+  "name": "nba-nrl-live",
+  "version": "1.0.0",
+  "description": "NBA & NRL Live — unit tests",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

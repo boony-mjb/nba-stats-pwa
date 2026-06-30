@@ -9,6 +9,12 @@
   </div>
 </header>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+</script>
+
 <nav class="navbar">
   <a href="{{ url_for('index') }}" class="nav-link {% if active_page == 'scores' %}active{% endif %}">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>

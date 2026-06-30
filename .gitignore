@@ -1,0 +1,32 @@
+# Environment & secrets — never commit these
+.env
+users.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Node (for running Jest tests)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build / deploy artefacts
+*.egg-info/
+dist/
+build/

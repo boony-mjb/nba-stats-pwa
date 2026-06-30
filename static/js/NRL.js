@@ -182,6 +182,8 @@ function openBoxScore(eventId) {
 
   document.getElementById('box-score-modal').style.display = 'block';
 
+  const isUpcoming = event.intHomeScore === null || event.intHomeScore === '';
+
   document.getElementById('box-score-content').innerHTML = `
     <h2 style="font-family:'Bebas Neue',sans-serif; font-size:20px; margin-bottom:12px;">
       ${event.strHomeTeam} vs ${event.strAwayTeam}
@@ -209,7 +211,18 @@ function openBoxScore(eventId) {
     <p style="font-size:11px; color:var(--muted); text-align:center;">
       ${event.strLeague ?? 'NRL'} · ${event.strSeason ?? ''}
     </p>
+    ${isUpcoming ? '<div id="prediction-mount"></div>' : ''}
   `;
+
+  // Only show the AI prediction widget for upcoming (unplayed) games
+  if (isUpcoming && window.renderPredictionWidget) {
+    renderPredictionWidget(
+      document.getElementById('prediction-mount'),
+      event.strHomeTeam,
+      event.strAwayTeam,
+      'NRL'
+    );
+  }
 }
 
 function closeBoxScore() {

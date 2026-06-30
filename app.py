@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, jsonify
 from dotenv import load_dotenv
 import os
 import secrets
+import urllib.request
+import json
 
 import auth
 
@@ -16,7 +18,7 @@ app.secret_key = os.getenv('SECRET_KEY', secrets.token_hex(16))
 auth.init_db()
 
 # Routes that don't require being logged in or in guest mode
-PUBLIC_ROUTES = {'login', 'register', 'continue_as_guest', 'static'}
+PUBLIC_ROUTES = {'login', 'register', 'continue_as_guest', 'static', 'manifest', 'service_worker'}
 
 
 @app.before_request
@@ -93,6 +95,73 @@ def current_user_label():
 
 app.jinja_env.globals['current_user_label'] = current_user_label
 
+
+@app.route('/api/predict', methods=['POST'])
+def predict():
+    anthropic_key = os.getenv('ANTHROPIC_API_KEY', '')
+    print(f"[predict] API key loaded: {'YES (len=' + str(len(anthropic_key)) + ')' if anthropic_key else 'NO - key is empty'}")
+
+    if not anthropic_key:
+        return jsonify({'error': 'ANTHROPIC_API_KEY not set in .env'}), 500
+
+    body = request.get_json(silent=True) or {}
+    home_team = body.get('homeTeam', '')
+    away_team = body.get('awayTeam', '')
+    league    = body.get('league', 'NBA')
+
+    if not home_team or not away_team:
+        return jsonify({'error': 'homeTeam and awayTeam are required'}), 400
+
+    prompt = f"""You are a sports analytics assistant. Given a {league} matchup, generate a win-probability prediction.
+
+Matchup: {home_team} (Home) vs {away_team} (Away)
+
+Respond with ONLY valid JSON, no extra text, no markdown. Use this exact format:
+{{"homePct": <integer 0-100>, "awayPct": <integer 0-100>, "factors": ["<factor 1>", "<factor 2>", "<factor 3>"]}}
+
+homePct + awayPct must equal exactly 100."""
+
+    payload = json.dumps({
+        'model': 'claude-sonnet-4-6',
+        'max_tokens': 300,
+        'messages': [{'role': 'user', 'content': prompt}]
+    }).encode('utf-8')
+
+    req = urllib.request.Request(
+        'https://api.anthropic.com/v1/messages',
+        data=payload,
+        headers={
+            'Content-Type':      'application/json',
+            'x-api-key':         anthropic_key,
+            'anthropic-version': '2023-06-01'
+        },
+        method='POST'
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data    = json.loads(resp.read().decode('utf-8'))
+            text    = ''.join(b.get('text', '') for b in data.get('content', []))
+            clean   = text.strip().lstrip('```json').rstrip('```').strip()
+            parsed  = json.loads(clean)
+            print(f"[predict] Success: {parsed}")
+            return jsonify(parsed)
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode('utf-8')
+        print(f"[predict] Anthropic HTTP error {e.code}: {error_body}")
+        return jsonify({'error': f'Anthropic API error {e.code}: {error_body}'}), 500
+    except Exception as e:
+        print(f"[predict] Unexpected error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/manifest.json')
+def manifest():
+    return send_from_directory('.', 'manifest.json', mimetype='application/manifest+json')
+
+@app.route('/sw.js')
+def service_worker():
+    return send_from_directory('.', 'sw.js', mimetype='application/javascript')
 
 @app.route('/')
 def index():
