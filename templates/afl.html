@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e8b84b" />
+  <title>AFL Live — Scores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  {% include 'afl_nav.html' %}
+
+  <div class="day-strip-row">
+    <div class="day-strip" id="afl-day-strip"></div>
+    <input type="date" id="date-picker" class="date-picker" onchange="selectDateFromPicker(this.value)" />
+  </div>
+  <div class="section-head">
+    <span class="section-label" id="afl-day-label">Today</span>
+    <span class="game-count" id="afl-game-count"></span>
+  </div>
+  <div id="afl-list"><div class="loading">Loading...</div></div>
+
+  <div id="box-score-modal" class="modal-overlay" onclick="if(event.target===this) closeBoxScore()">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeBoxScore()">&times;</button>
+      <div id="box-score-content"></div>
+    </div>
+  </div>
+
+  <script>const API_KEY = "{{ api_key }}";</script>
+  <script src="{{ url_for('static', filename='js/db.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/afl.js') }}"></script>
+</body>
+</html>

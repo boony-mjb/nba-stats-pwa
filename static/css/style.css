@@ -942,6 +942,13 @@ body {
   text-transform: uppercase;
   color: var(--muted);
   text-decoration: none;
+  margin: 0 10px;
+}
+
+.app-switch a:not(:last-child)::after {
+  content: '·';
+  margin-left: 20px;
+  color: var(--border2);
 }
 
 .app-switch a:hover { color: var(--gold); }

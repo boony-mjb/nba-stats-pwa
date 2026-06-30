@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e8b84b" />
+  <title>AFL Live — Rules</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  {% include 'afl_nav.html' %}
+
+  <div class="section-head">
+    <span class="section-label">Basics of Australian Football</span>
+  </div>
+
+  <div class="rules-list">
+
+    <div class="rule-card">
+      <div class="rule-title">Game Structure</div>
+      <p>A match is played in four 20-minute quarters (plus time added on for stoppages), with breaks between each. The team with the higher score at the final siren wins.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Scoring</div>
+      <p>Kicking the ball between the two tall centre posts is a goal, worth 6 points. Hitting a shorter post on either side, or the ball being touched before crossing the line, is a behind, worth 1 point.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">The Oval Field &amp; Open Play</div>
+      <p>AFL is played on a large oval field with no offside rule, so players can run and kick the ball anywhere on the ground at any time.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Moving the Ball</div>
+      <p>Players can kick or handball (punch the ball off one hand with the other) to teammates. After taking a mark or free kick, a player gets unimpeded time to play on.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Marking &amp; Tackling</div>
+      <p>Cleanly catching a kick that's travelled at least 15 metres is a mark, awarding a free kick. Opponents can tackle the ball carrier, who must dispose of the ball correctly or risk being penalised for holding the ball.</p>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">The Ladder &amp; Finals</div>
+      <p>Teams earn 4 points for a win and 2 for a draw across the home-and-away season. The top 8 on the ladder qualify for a finals series, which culminates in the AFL Grand Final.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

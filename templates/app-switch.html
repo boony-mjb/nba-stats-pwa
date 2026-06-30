@@ -1,0 +1,5 @@
+<div class="app-switch">
+  {% if active_app != 'nba' %}<a href="{{ url_for('index') }}">NBA Live</a>{% endif %}
+  {% if active_app != 'nrl' %}<a href="{{ url_for('nrl') }}">NRL Live</a>{% endif %}
+  {% if active_app != 'afl' %}<a href="{{ url_for('afl') }}">AFL Live</a>{% endif %}
+</div>
