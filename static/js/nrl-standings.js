@@ -30,7 +30,7 @@ const LADDER = [
   { rank: 17, name: 'St George Illawarra Dragons', w: 1,  l: 13, pts: 6 },
 ];
 
-const LADDER_UPDATED = 'Not yet filled in — edit LADDER + LADDER_UPDATED at the top of nrl-standings.js';
+const LADDER_UPDATED = '01-07-2026';
 
 function renderLadder() {
   const list = document.getElementById('nrl-standings-list');
